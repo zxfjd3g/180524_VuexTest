@@ -8,5 +8,12 @@ new Vue({
     App
   },
   template: '<App/>',
-  store
+  store, // 所有组件对象都多了一个属性: $store
 })
+
+/*
+$store:
+  state
+  getters
+  dispatch()
+ */
