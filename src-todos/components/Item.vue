@@ -1,44 +1,46 @@
 <template>
-  <li :style="{background: libg}"
-      @mouseenter="handleStyle(true)" @mouseleave="handleStyle(false)">
+  <li :style="{background: bgColor}" @mouseenter="handleEnter(true)" @mouseleave="handleEnter(false)">
     <label>
       <input type="checkbox" v-model="todo.complete"/>
       <span>{{todo.title}}</span>
     </label>
-    <button class="btn btn-danger" v-show="isShown" @click="deleteItem">删除</button>
+    <button class="btn btn-danger" v-show="isShow" @click="deleteItem">删除</button>
   </li>
 </template>
-
-<script type="text/ecmascript-6">
+<script>
   export default {
-    props: ['todo', 'index'],
+    props: { // 指定了属性名和属性值的类型
+      todo: Object,
+      index: Number
+    },
+
     data () {
       return {
-        isShown: false,
-        libg: '#fff'
+        bgColor: 'white',
+        isShow: false
       }
     },
+
     methods: {
-      handleStyle (isEnter) {
-        if (isEnter) {
-          this.isShown = true
-          this.libg = '#ddd'
-        } else {
-          this.isShown = false
-          this.libg = '#fff'
+      handleEnter (isEnter) {
+        if(isEnter) { // 进入
+          this.bgColor = '#cccccc'
+          this.isShow = true
+        } else { // 离开
+          this.bgColor = '#ffffff'
+          this.isShow = false
         }
       },
+
       deleteItem () {
-        const {todo, deleteTodo, index} = this
-        if (window.confirm(`确定删除${todo.title}的评论吗?`)) {
-          // deleteTodo(index)
-          this.$store.dispatch('removeTodo', index)
+        if(confirm('确定删除吗')) {
+          // this.deleteTodo(this.index)
+          this.$store.dispatch('deleteTodo', this.index)
         }
       }
     }
   }
 </script>
-
 <style>
   li {
     list-style: none;

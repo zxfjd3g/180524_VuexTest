@@ -1,23 +1,28 @@
-import {RECEIVE_TODOS, ADD_TODO, REMOVE_TODO, DELETE_DONE, UPDATE_ALL_TODOS} from './types'
+/*
+包含n个用于直接更新状态数据的方法的对象
+ */
+import {
+  ADD_TODO,
+  DELETE_TODO,
+  SELECT_ALL,
+  DELETE_COMPLETE,
+  RECEIVE_TODOS
+} from './mutation-types'
 
 export default {
-  [RECEIVE_TODOS] (state, {todos}) {
-    state.todos = todos
-  },
-
-  [ADD_TODO] (state, {todo}) {
+  [ADD_TODO](state, {todo}) {
     state.todos.unshift(todo)
   },
-
-  [REMOVE_TODO] (state, {index}) {
+  [DELETE_TODO](state, {index}) {
     state.todos.splice(index, 1)
   },
-
-  [DELETE_DONE] (state) {
+  [SELECT_ALL](state, {isCheck}) {
+    state.todos.forEach(todo => todo.complete = isCheck)
+  },
+  [DELETE_COMPLETE](state) {
     state.todos = state.todos.filter(todo => !todo.complete)
   },
-
-  [UPDATE_ALL_TODOS] (state, {isCheck}) {
-    state.todos.forEach(todo => todo.complete = isCheck)
-  }
+  [RECEIVE_TODOS](state, {todos}) {
+    state.todos = todos
+  },
 }

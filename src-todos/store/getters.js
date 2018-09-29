@@ -1,19 +1,20 @@
+/*
+包含n个getter计算属性的方法的对象
+ */
 export default {
-  todos (state) {
-    return state.todos
-  },
 
-  totalSize (state) {
+  // 总数量
+  totalCount (state) {
     return state.todos.length
   },
 
-  completeSize (state) {
-    return state.todos.reduce((preTotal, todo) => {
-      return preTotal + (todo.complete ? 1 : 0)
-    }, 0)
+  // 完成的数量
+  completeCount (state) {
+    return state.todos.reduce((preTotal, todo) => preTotal + (todo.complete?1:0), 0)
   },
 
-  isAllComplete (state, getters) {
-    return  getters.totalSize===getters.completeSize && getters.totalSize>0
+  // 是否需要全选
+  isSelectAll (state, getters) {
+    return getters.totalCount===getters.completeCount && getters.completeCount>0
   }
 }

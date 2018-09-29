@@ -1,33 +1,44 @@
 <template>
   <div class="todo-header">
     <input type="text" placeholder="请输入你的任务名称，按回车键确认"
-       v-model="title" @keyup.enter="addItem"/>
+           v-model="title" @keyup.enter="add"/>
   </div>
 </template>
-
-<script type="text/ecmascript-6">
+<script>
   export default {
-    data () {
+
+    data() {
       return {
-        title: null
+        title: ''
       }
     },
+
     methods: {
-      addItem () {
-        const title = this.title && this.title.trim()
-        if (title) {
-          const todo = {
-            title,
-            complete: false
-          }
-          this.$store.dispatch('addTodo', todo)
-          this.title = null
+      add () {
+        // 得到输入数据
+        const title = this.title.trim()
+        // 检查
+        if(!title) {
+          alert('必须输入')
+          return
         }
+
+        // 封装一个todo对象
+        const todo = {
+          title,
+          complete: false
+        }
+
+        // 添加到todos中
+        // this.addTodo(todo)
+        this.$store.dispatch('addTodo', todo)
+
+        // 清除输入
+        this.title = ''
       }
     }
   }
 </script>
-
 <style>
   .todo-header input {
     width: 560px;

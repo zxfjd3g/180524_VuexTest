@@ -1,28 +1,40 @@
-import storageUtil from '../util/storageUtil'
-import {RECEIVE_TODOS, ADD_TODO, REMOVE_TODO, DELETE_DONE, UPDATE_ALL_TODOS} from './types'
+/*
+包含n个用于间接更新状态数据的方法的对象
+ */
+import storageUtils from '../utils/storageUtils'
+import {
+  ADD_TODO,
+  DELETE_TODO,
+  SELECT_ALL,
+  DELETE_COMPLETE,
+  RECEIVE_TODOS
+} from './mutation-types'
 
 export default {
-  readTodo ({commit}) {
-    setTimeout(() => {
-      const todos = storageUtil.fetch()
-      // 提交commit触发mutation调用
-      commit(RECEIVE_TODOS, {todos})
-    }, 1000)
-  },
 
   addTodo ({commit}, todo) {
     commit(ADD_TODO, {todo})
   },
 
-  removeTodo ({commit}, index) {
-    commit(REMOVE_TODO, {index})
+  deleteTodo ({commit}, index) {
+    commit(DELETE_TODO, {index})
   },
 
-  deleteDone ({commit}) {
-    commit(DELETE_DONE)
+  selectAll ({commit}, isCheck) {
+    commit(SELECT_ALL, {isCheck})
   },
 
-  updateAllTodos ({commit}, isCheck) {
-    commit(UPDATE_ALL_TODOS, {isCheck})
+  deleteComplete ({commit}) {
+    commit(DELETE_COMPLETE)
+  },
+
+  getTodos ({commit}) {
+    // 异步获取数据
+    setTimeout(() => {
+      const todos = storageUtils.readTodos()
+      // 得到数据后, commit更新状态
+      commit(RECEIVE_TODOS, {todos})
+    }, 1000)
+
   }
 }

@@ -9,7 +9,7 @@ function resolve (dir) {
 
 module.exports = {
   entry: {
-    app: './src-user/main.js'
+    app: './src-todos/main.js'
   },
   output: {
     path: config.build.assetsRoot,
