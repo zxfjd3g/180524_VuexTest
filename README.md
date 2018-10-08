@@ -1,7 +1,8 @@
 # 1. vuex是什么
+    vue的插件
+    作用: 对应用中组件的状态进行集中式的管理(读/写)
 	github站点: https://github.com/vuejs/vuex
 	在线文档: https://vuex.vuejs.org/zh-cn/
-	简单来说: 对应用中组件的状态进行集中式的管理(读/写)
 
 # 2. 状态自管理应用
 	state: 驱动应用的数据源
@@ -30,7 +31,7 @@
 	谁来触发: action中的commit('mutation名称')
 	只能包含同步的代码, 不能写异步代码
 	const mutations = {
-		yyy (state, data) { 
+		yyy (state, {data1}) { 
 			// 更新state的某个属性
 		}
 	}
@@ -41,18 +42,18 @@
 	可以包含异步代码(定时器, ajax)
 	const actions = {
 		zzz ({commit, state}, data1) {
-			commit('yyy', data2)
+			commit('yyy', {data1})
 		}
 	}
 ## 4). getters
-	包含多个计算属性(get)的对象
+	包含多个计算属性(getter)的对象
 	谁来读取: 组件中: $store.getters.xxx
 	const getters = {
 		mmm (state) {
 			return ...
 		}
 	}
-## 5). modules
+## 5). modules (了解)
 	包含多个module
 	一个module是一个store的配置对象
 	与一个组件(包含有共享数据)对应
@@ -66,10 +67,10 @@
 	})
 
 ## 7). 组件中:
-	import {mapGetters, mapActions} from 'vuex'
+	import {mapState, mapGetters, mapActions} from 'vuex'
 	export default {
-		computed: mapGetters(['mmm'])
-		methods: mapActions(['zzz'])
+		computed: {...mapState(['xxx']), ...mapGetters(['mmm'])}
+		methods: {...mapActions(['zzz'])}
 	}
 
 	{{mmm}} @click="zzz(data)"
@@ -82,11 +83,11 @@
 	})
 
 ## 9). store对象
-	1.所有用vuex管理的组件中都多了一个属性$store, 它就是一个store对象
-	2.属性:
+	1>.所有用vuex管理的组件中都多了一个属性$store, 它就是一个store对象
+	2>.属性:
 	  state: 注册的state对象
 	  getters: 注册的getters对象
-	3.方法:
+	3>.方法:
 	  dispatch(actionName, data): 分发action 
 
 # 5. 将vuex引到项目中
@@ -106,3 +107,7 @@
 		new Vue({
 			store
 		})
+    3. 组件中
+        $store.state.xxx  / mapState()
+        $store.getters.yyy  / mapGetters()
+        $store.dispatch()  /  mapActions()
